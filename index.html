@@ -52,22 +52,26 @@
         </div>
 
         <div class="hidden lg:flex gap-12">
-            <div onclick="scrollToSec('home')" class="nav-item">
-                <i class="fa-solid fa-house-user"></i>
-                <span class="ar-text">الرئيسية</span><span class="en-text">Home</span>
-            </div>
-            <div onclick="scrollToSec('problem')" class="nav-item">
-                <i class="fa-solid fa-circle-exclamation"></i>
-                <span class="ar-text">المشكلة</span><span class="en-text">Problem</span>
-            </div>
-            <div onclick="scrollToSec('specs')" class="nav-item">
-                <i class="fa-solid fa-layer-group"></i>
-                <span class="ar-text">المواصفات</span><span class="en-text">Specs</span>
-            </div>
-            <div onclick="scrollToSec('team')" class="nav-item">
-                <i class="fa-solid fa-user-gear"></i>
-                <span class="ar-text">الفريق</span><span class="en-text">Team</span>
-            </div>
+ <div onclick="scrollToSec('home')" class="nav-item">
+    <i class="fa-solid fa-house-user"></i>
+    <span class="ar-text">الرئيسية</span><span class="en-text">Home</span>
+</div>
+<div onclick="scrollToSec('problem')" class="nav-item">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    <span class="ar-text">المشكلة</span><span class="en-text">Problem</span>
+</div>
+<div onclick="scrollToSec('solution')" class="nav-item">
+    <i class="fa-solid fa-lightbulb"></i>
+    <span class="ar-text">الحل</span><span class="en-text">Solution</span>
+</div>
+<div onclick="scrollToSec('specs')" class="nav-item">
+    <i class="fa-solid fa-layer-group"></i>
+    <span class="ar-text">المواصفات</span><span class="en-text">Specs</span>
+</div>
+<div onclick="scrollToSec('team')" class="nav-item">
+    <i class="fa-solid fa-user-gear"></i>
+    <span class="ar-text">الفريق</span><span class="en-text">Team</span>
+</div>
             <div onclick="scrollToSec('invest')" class="nav-item">
                 <i class="fa-solid fa-chart-pie"></i>
                 <span class="ar-text">الاستثمار</span><span class="en-text">Invest</span>
@@ -132,7 +136,62 @@
             </div>
         </div>
     </section>
+<section id="solution" class="bg-white">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <span class="text-purple-600 font-black tracking-widest text-xs uppercase mb-4 block">ابتكار OZO</span>
+            <h2 class="text-4xl md:text-5xl font-black ar-text">الحل الذكي والمستدام</h2>
+            <h2 class="text-4xl md:text-5xl font-black en-text">Smart & Sustainable Solution</h2>
+        </div>
 
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="feature-card border-2 border-purple-100 ar-text">
+                <h3 class="text-2xl font-black mb-4">جهاز عطور ذكي (IoT)</h3>
+                <p class="text-gray-500 leading-relaxed">
+                    نقدم أول جهاز عطور ذكي يدمج الذكاء الاصطناعي بإنترنت الأشياء، يتيح لك تخليق آلاف الروائح المخصصة فورياً عبر خراطيش دقيقة، مما ينهي الحاجة لشراء زجاجات متعددة.
+                </p>
+                <div class="mt-8 flex gap-4">
+                    <div class="bg-purple-600 text-white px-4 py-2 rounded-xl text-sm font-bold">براءة اختراع سعودية</div>
+                    <div class="bg-black text-white px-4 py-2 rounded-xl text-sm font-bold">تخصيص فوري</div>
+                </div>
+            </div>
+
+            <div class="feature-card border-2 border-purple-100 en-text">
+                <h3 class="text-2xl font-black mb-4">AI-Powered IoT Device</h3>
+                <p class="text-gray-500 leading-relaxed">
+                    The first smart fragrance device merging AI with IoT, allowing users to create thousands of custom scents instantly via precision cartridges, eliminating the need for multiple bottles.
+                </p>
+                <div class="mt-8 flex gap-4">
+                    <div class="bg-purple-600 text-white px-4 py-2 rounded-xl text-sm font-bold">Saudi Patent</div>
+                    <div class="bg-black text-white px-4 py-2 rounded-xl text-sm font-bold">Instant Customization</div>
+                </div>
+            </div>
+
+            <div class="feature-card bg-black text-white">
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <i class="fa-solid fa-wand-magic-sparkles text-purple-500 text-2xl"></i>
+                        <div>
+                            <p class="font-bold ar-text">تخليق روائح لا نهائية</p>
+                            <p class="font-bold en-text">Infinite Scent Creation</p>
+                            <p class="text-sm opacity-50 ar-text">عبر خوارزميات ذكية تدمج المكونات بدقة.</p>
+                            <p class="text-sm opacity-50 en-text">Via smart algorithms for precise blending.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i class="fa-solid fa-leaf text-green-500 text-2xl"></i>
+                        <div>
+                            <p class="font-bold ar-text">استدامة بيئية</p>
+                            <p class="font-bold en-text">Environmental Sustainability</p>
+                            <p class="text-sm opacity-50 ar-text">تقليل مخلفات الزجاج والبلاستيك بنسبة 80%.</p>
+                            <p class="text-sm opacity-50 en-text">80% reduction in glass and plastic waste.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
     <section id="specs" class="bg-gray-50 rounded-[60px] mx-6">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-4xl font-black mb-16 ar-text">المواصفات الهندسية للعبوات</h2>
