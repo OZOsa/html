@@ -119,28 +119,16 @@
         </div>
     </section>
 </section>
-    <section id="ozo-final-3d" class="py-16 bg-[#020202]">
-    <div class="max-w-5xl mx-auto px-6">
-        <div class="text-center mb-10">
-            <h2 class="text-3xl md:text-5xl font-black text-white mb-4">OZO Engineering</h2>
-            <p class="text-purple-400 font-bold ar-text">استكشف أدق التفاصيل التقنية لمستقبل العطور</p>
-        </div>
-
-        <div id="ozo-master-container" style="width: 100%; height: 700px; background: radial-gradient(circle, #151515 0%, #000 100%); border-radius: 50px; border: 1px solid #222; overflow: hidden; cursor: grab; position: relative;">
-        </div>
-    </div>
-</section>
-
 <script type="module">
     import * as THREE from 'https://cdn.skypack.dev/three@0.129.0';
     import { OrbitControls } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js';
 
-    function startOZO() {
+    function initOzoDeepDive() {
         const container = document.getElementById('ozo-master-container');
         if (!container) return;
 
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(container.clientWidth, container.clientHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -148,86 +136,107 @@
 
         const group = new THREE.Group();
 
-        // مواد التصميم الفاخرة
-        const metalMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, metalness: 1, roughness: 0.2 });
-        const goldMat = new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 1, roughness: 0.1 });
-        const glassMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 0.9, transparent: true, opacity: 0.2, thickness: 1 });
+        // --- 1. رأس البخاخ (Precision Nozzle) ---
+        const nozzleHead = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.15, 0.25, 0.3, 32),
+            new THREE.MeshStandardMaterial({ color: 0x222, metalness: 1, roughness: 0.1 })
+        );
+        nozzleHead.position.y = 2.4;
+        // فتحة البخاخ الفعلية
+        const sprayHole = new THREE.Mesh(new THREE.CircleGeometry(0.02, 32), new THREE.MeshBasicMaterial({ color: 0x8b5cf6 }));
+        sprayHole.rotation.x = -Math.PI / 2;
+        sprayHole.position.y = 0.151;
+        nozzleHead.add(sprayHole);
+        group.add(nozzleHead);
 
-        // 1. الرأس الذكي والبخاخ (Top Nozzle)
-        const head = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.25, 0.2, 32), metalMat);
-        head.position.y = 2.2;
-        group.add(head);
-
-        // 2. غرفة الخلط (Mixing Chamber) - قبة شفافة
-        const mixer = new THREE.Mesh(new THREE.SphereGeometry(0.3, 32, 32), glassMat);
-        mixer.position.y = 1.8;
+        // --- 2. غرفة الخلط (The Alchemical Chamber) ---
+        const mixer = new THREE.Mesh(
+            new THREE.SphereGeometry(0.28, 32, 32),
+            new THREE.MeshPhysicalMaterial({ color: 0x8b5cf6, transmission: 0.8, transparent: true, opacity: 0.5, thickness: 1 })
+        );
+        mixer.position.y = 1.9;
         group.add(mixer);
 
-        // 3. نظام المضخات (12 Pump Units)
-        const pumpBase = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 0.1, 64), metalMat);
-        pumpBase.position.y = 1.5;
-        group.add(pumpBase);
+        // --- 3. الشاشة المنحنية الذكية (Curved AI Interface) ---
+        // صممتها كأنها طبقة زجاجية سوداء تغلف جزء من الجهاز
+        const screenGeo = new THREE.CylinderGeometry(0.66, 0.66, 1.0, 64, 1, true, 0, Math.PI / 1.5);
+        const screenMat = new THREE.MeshStandardMaterial({ 
+            color: 0x000, 
+            metalness: 1, 
+            roughness: 0, 
+            side: THREE.DoubleSide 
+        });
+        const screen = new THREE.Mesh(screenGeo, screenMat);
+        screen.position.y = 0.5;
+        screen.rotation.y = -Math.PI / 3;
+        group.add(screen);
+
+        // إضافة توهج نصي للشاشة (تمثيل للذكاء الاصطناعي)
+        const aiGlow = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 0.2), new THREE.MeshBasicMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.3 }));
+        aiGlow.position.set(0, 0.5, 0.67);
+        group.add(aiGlow);
+
+        // --- 4. نظام الأنابيب والمضخات (Peristaltic Network) ---
+        const pumpPlate = new THREE.Mesh(new THREE.CylinderGeometry(0.65, 0.65, 0.15, 64), new THREE.MeshStandardMaterial({ color: 0x111 }));
+        pumpPlate.position.y = 1.45;
+        group.add(pumpPlate);
 
         for(let i=0; i<12; i++) {
-            const pump = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.15, 0.08), metalMat);
             const angle = (i / 12) * Math.PI * 2;
-            pump.position.set(Math.cos(angle) * 0.45, 1.55, Math.sin(angle) * 0.45);
+            const x = Math.cos(angle) * 0.45;
+            const z = Math.sin(angle) * 0.45;
+
+            // المضخة التمعجية (المحرك الصغير)
+            const pump = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.12, 0.1), new THREE.MeshStandardMaterial({ color: 0x333 }));
+            pump.position.set(x, 1.52, z);
             group.add(pump);
+
+            // الأنابيب الدقيقة الموصلة لغرفة الخلط (Micro-tubes)
+            const tubeCurve = new THREE.QuadraticBezierCurve3(
+                new THREE.Vector3(x, 1.58, z), // من المضخة
+                new THREE.Vector3(x * 0.5, 1.7, z * 0.5), // انحناء للداخل
+                new THREE.Vector3(0, 1.85, 0) // إلى غرفة الخلط
+            );
+            const tubeGeo = new THREE.TubeGeometry(tubeCurve, 10, 0.01, 8, false);
+            const tubeMat = new THREE.MeshBasicMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.6 });
+            group.add(new THREE.Mesh(tubeGeo, tubeMat));
+
+            // الخراطيش الذهبية (The Essence Source)
+            const cart = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 1.5, 32), new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 1, roughness: 0.1 }));
+            cart.position.set(x, 0.5, z);
+            group.add(cart);
         }
 
-        // 4. الخراطيش الـ 12 (The 12 Gold Cartridges)
-        for(let i=0; i<12; i++) {
-            const cartridge = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 1.8, 32), goldMat);
-            const angle = (i / 12) * Math.PI * 2;
-            cartridge.position.set(Math.cos(angle) * 0.45, 0.5, Math.sin(angle) * 0.45);
-            group.add(cartridge);
-        }
-
-        // 5. غطاء البطارية واللوحة الأم (Base & Battery)
-        const base = new THREE.Mesh(new THREE.CylinderGeometry(0.65, 0.65, 0.6, 64), metalMat);
-        base.position.y = -0.8;
+        // --- 5. القاعدة والبطارية (Energy Core) ---
+        const base = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.7, 0.6, 64), new THREE.MeshStandardMaterial({ color: 0x050505 }));
+        base.position.y = -0.7;
         group.add(base);
-
-        // تمثيل البطارية (ليثيوم) بضوء أخضر
-        const battery = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.3, 0.4), new THREE.MeshStandardMaterial({ color: 0x22c55e, emissive: 0x22c55e, emissiveIntensity: 0.5 }));
-        battery.position.y = -0.8;
-        group.add(battery);
 
         scene.add(group);
 
-        // إضاءة سينمائية قوية (Studio Lighting)
-        const sunLight = new THREE.DirectionalLight(0xffffff, 5);
-        sunLight.position.set(5, 10, 7.5);
-        scene.add(sunLight);
-
-        const fillLight = new THREE.PointLight(0x8b5cf6, 10, 50); // إضاءة بنفسجية
-        fillLight.position.set(-5, 0, 5);
-        scene.add(fillLight);
-
-        scene.add(new THREE.AmbientLight(0xffffff, 1));
+        // إضاءة استوديو مركزة
+        const light1 = new THREE.SpotLight(0xffffff, 10);
+        light1.position.set(5, 10, 5);
+        scene.add(light1);
+        const light2 = new THREE.PointLight(0x8b5cf6, 5);
+        light2.position.set(-5, 2, 0);
+        scene.add(light2);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.7));
 
         camera.position.set(0, 1.5, 7);
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
-        controls.enableZoom = false;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 1.5;
 
         function animate() {
             requestAnimationFrame(animate);
-            group.rotation.y += 0.005; // دوران تلقائي فخم
             controls.update();
             renderer.render(scene, camera);
         }
         animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        });
     }
-
-    // الانتظار حتى تحميل الصفحة تماماً
-    window.onload = startOZO;
+    window.onload = initOzoDeepDive;
 </script>
     <section id="problem">
         <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
