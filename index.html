@@ -90,9 +90,10 @@
     <i class="fa-solid fa-map-location-dot"></i>
     <span class="ar-text">الخطة</span><span class="en-text">Roadmap</span>
 </div>
-<button onclick="scrollToSec('contact-section')" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-xl font-bold transition-all">
-    تواصل معنا
-</button>
+<div onclick="scrollToSec('contact-section')" class="group cursor-pointer flex items-center gap-2">
+                <i class="fa-solid fa-handshake text-gray-400 group-hover:text-purple-500 transition-colors"></i>
+                <span class="text-gray-400 group-hover:text-white text-sm font-bold ar-text">تواصل معنا</span>
+            </div>
 
         <button onclick="toggleLang()" class="bg-black text-white px-6 py-2 rounded-full text-[10px] font-black hover:bg-purple-600 transition uppercase tracking-tighter">
             AR / EN
@@ -539,6 +540,8 @@
   animation: shake 0.4s ease-in-out infinite;
 }
 </style>
+</section>
+
 <footer class="py-20 text-center border-t border-gray-100">
     <div class="flex flex-col items-center">
         <img src="logo.png" alt="OZO" class="h-12 md:h-16 mb-4">
