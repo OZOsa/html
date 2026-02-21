@@ -596,8 +596,8 @@
     import * as THREE from 'https://cdn.skypack.dev/three@0.129.0';
     import { OrbitControls } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js';
 
-    function initOZO() {
-        const container = document.getElementById('ozo-3d-container');
+    function initEngineeringOZO() {
+        const container = document.getElementById('ozo-engineering-container');
         if (!container) return;
 
         const scene = new THREE.Scene();
@@ -606,76 +606,80 @@
         renderer.setSize(container.clientWidth, container.clientHeight);
         container.appendChild(renderer.domElement);
 
-        // المجموعة الرئيسية للجهاز
-        const ozoGroup = new THREE.Group();
+        const mainGroup = new THREE.Group();
 
-        // 1. الجسم الخارجي (أبعاد 200 طولي و 60 عرضي كنسبة 2.0 و 0.6)
-        const outerGeo = new THREE.CylinderGeometry(0.6, 0.6, 2.0, 64, 1, true); // true تجعله مفتوح
-        const outerMat = new THREE.MeshStandardMaterial({ 
-            color: 0x050505, 
-            metalness: 1, 
-            roughness: 0.1, 
-            side: THREE.DoubleSide,
-            transparent: true,
-            opacity: 0.9 
-        });
-        const outerShell = new THREE.Mesh(outerGeo, outerMat);
-        ozoGroup.add(outerShell);
+        // دالة مساعدة لإنشاء الأجزاء المعدنية
+        const createMetal = (color) => new THREE.MeshStandardMaterial({ color, metalness: 1, roughness: 0.2 });
 
-        // 2. إضافة "خراطيش" داخلية (12 أنبوب صغير)
+        // 1. الرأس والبخاخ (The Nozzle Head)
+        const headGeo = new THREE.CylinderGeometry(0.2, 0.3, 0.2, 32);
+        const head = new THREE.Mesh(headGeo, createMetal(0x222222));
+        head.position.y = 1.8;
+        const nozzle = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.1, 16), createMetal(0x8b5cf6));
+        nozzle.position.y = 0.15;
+        head.add(nozzle);
+        mainGroup.add(head);
+
+        // 2. غرفة الخلط (Mixing Chamber)
+        const mixGeo = new THREE.SphereGeometry(0.25, 32, 32, 0, Math.PI * 2, 0, Math.PI / 2);
+        const mixChamber = new THREE.Mesh(mixGeo, new THREE.MeshStandardMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.6 }));
+        mixChamber.position.y = 1.4;
+        mainGroup.add(mixChamber);
+
+        // 3. طبقة المضخات (The Pumps Layer)
+        const pumpPlate = new THREE.Mesh(new THREE.CylinderGeometry(0.65, 0.65, 0.1, 64), createMetal(0x111111));
+        pumpPlate.position.y = 1.1;
+        mainGroup.add(pumpPlate);
+        
         for(let i=0; i<12; i++) {
-            const cartridgeGeo = new THREE.CylinderGeometry(0.05, 0.05, 1.2, 16);
-            const cartridgeMat = new THREE.MeshStandardMaterial({ 
-                color: 0x8b5cf6, // لون بنفسجي OZO
-                emissive: 0x8b5cf6,
-                emissiveIntensity: 0.5
-            });
-            const cartridge = new THREE.Mesh(cartridgeGeo, cartridgeMat);
-            
-            // توزيع الأنابيب بشكل دائري داخل الجهاز
+            const pump = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.15, 0.1), createMetal(0x333333));
             const angle = (i / 12) * Math.PI * 2;
-            cartridge.position.set(Math.cos(angle) * 0.3, 0, Math.sin(angle) * 0.3);
-            ozoGroup.add(cartridge);
+            pump.position.set(Math.cos(angle) * 0.45, 1.1, Math.sin(angle) * 0.45);
+            mainGroup.add(pump);
         }
 
-        // 3. إضافة "الشاشة" في جهة واحدة
-        const screenGeo = new THREE.PlaneGeometry(0.4, 0.8);
-        const screenMat = new THREE.MeshStandardMaterial({ 
-            color: 0x000000, 
-            emissive: 0x444444,
-            side: THREE.DoubleSide 
-        });
-        const screen = new THREE.Mesh(screenGeo, screenMat);
-        screen.position.set(0, 0, 0.61); // في واجهة الجهاز
-        ozoGroup.add(screen);
+        // 4. الخراطيش (The 12 Cartridges)
+        const cartGroup = new THREE.Group();
+        for(let i=0; i<12; i++) {
+            const cart = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 1.2, 32), createMetal(0xD4AF37));
+            const angle = (i / 12) * Math.PI * 2;
+            cart.position.set(Math.cos(angle) * 0.45, 0.3, Math.sin(angle) * 0.45);
+            cartGroup.add(cart);
+        }
+        mainGroup.add(cartGroup);
 
-        scene.add(ozoGroup);
+        // 5. قاعدة البطارية واللوحة الأم (Power Base & Motherboard)
+        const baseGeo = new THREE.CylinderGeometry(0.7, 0.7, 0.5, 64);
+        const base = new THREE.Mesh(baseGeo, createMetal(0x0a0a0a));
+        base.position.y = -0.8;
+        mainGroup.add(base);
 
-        // إضاءة قوية لإبراز التفاصيل
-        const light1 = new THREE.PointLight(0xffffff, 2);
-        light1.position.set(5, 5, 5);
-        scene.add(light1);
+        // تمثيل البطارية (اللون الأخضر التقني)
+        const battery = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.2, 0.4), new THREE.MeshStandardMaterial({ color: 0x22c55e }));
+        battery.position.y = -0.8;
+        mainGroup.add(battery);
 
-        const light2 = new THREE.PointLight(0x8b5cf6, 3); // إضاءة بنفسجية داخلية
-        light2.position.set(-5, -5, 2);
-        scene.add(light2);
+        scene.add(mainGroup);
 
+        // إضاءة محيطية قوية
+        const pLight = new THREE.PointLight(0xffffff, 5);
+        pLight.position.set(5, 5, 5);
+        scene.add(pLight);
         scene.add(new THREE.AmbientLight(0xffffff, 0.8));
 
-        camera.position.z = 5;
+        camera.position.set(0, 2, 6);
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
 
         function animate() {
             requestAnimationFrame(animate);
-            ozoGroup.rotation.y += 0.005; // دوران تلقائي
+            mainGroup.rotation.y += 0.005;
             controls.update();
             renderer.render(scene, camera);
         }
         animate();
     }
-
-    window.onload = initOZO;
+    window.onload = initEngineeringOZO;
 </script>
 </body>
 </html>
