@@ -56,6 +56,33 @@
     <i class="fa-solid fa-house-user"></i>
     <span class="ar-text">الرئيسية</span><span class="en-text">Home</span>
 </div>
+            <section id="experience-3d" class="py-20 bg-[#050505] border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            
+            <div class="text-right">
+                <span class="text-purple-500 font-black tracking-widest text-xs uppercase mb-4 block">تجربة تفاعلية</span>
+                <h2 class="text-3xl md:text-5xl font-black text-white mb-6 ar-text">استكشف التصميم الهندسي</h2>
+                <h2 class="text-3xl md:text-5xl font-black text-white mb-6 en-text">Explore the 3D Design</h2>
+                <p class="text-gray-400 text-lg leading-relaxed ar-text">
+                    جهاز OZO ليس مجرد تصميم جميل، بل هو هندسة دقيقة. يمكنك الآن تدوير المجسم واستكشاف أبعاد الجهاز (22×22×28 سم) التي صُممت لتناسب أرقى المساحات.
+                </p>
+                <p class="text-gray-400 text-lg leading-relaxed en-text">
+                    OZO is more than just a beautiful design; it's precision engineering. Rotate the 3D model to explore the dimensions (22x22x28 cm) designed for premium spaces.
+                </p>
+                <div class="mt-8 flex items-center gap-3 text-purple-400">
+                    <i class="fa-solid fa-mouse-pointer animate-bounce"></i>
+                    <span class="text-sm font-bold ar-text">استخدم الماوس أو اللمس لتدوير الجهاز</span>
+                    <span class="text-sm font-bold en-text">Use mouse or touch to rotate</span>
+                </div>
+            </div>
+
+            <div id="ozo-3d-container" class="relative w-full h-[400px] md:h-[550px] bg-white/5 rounded-[40px] border border-white/10 overflow-hidden shadow-2xl">
+                </div>
+
+        </div>
+    </div>
+</section>
 <div onclick="scrollToSec('problem')" class="nav-item">
     <i class="fa-solid fa-circle-exclamation"></i>
     <span class="ar-text">المشكلة</span><span class="en-text">Problem</span>
@@ -574,5 +601,51 @@
         }
         window.onload = renderChart;
     </script>
+<script type="module">
+    import * as THREE from 'https://cdn.skypack.dev/three@0.129.0';
+    import { OrbitControls } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js';
+
+    const container = document.getElementById('ozo-3d-container');
+    if (container) {
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
+
+        // رسم شكل الجهاز (أسطوانة سوداء)
+        const geometry = new THREE.CylinderGeometry(1, 1, 2.8, 64);
+        const material = new THREE.MeshStandardMaterial({ 
+            color: 0x0a0a0a, 
+            metalness: 0.9, 
+            roughness: 0.1 
+        });
+        const device = new THREE.Mesh(geometry, material);
+        scene.add(device);
+
+        // إضاءة بنفسجية خافتة (روح OZO)
+        const light = new THREE.PointLight(0x8b5cf6, 15, 50);
+        light.position.set(5, 5, 5);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+        camera.position.z = 5;
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableZoom = false;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            device.rotation.y += 0.005; 
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+    }
+</script>
 </body>
 </html>
