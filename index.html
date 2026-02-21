@@ -3,108 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OZO | المنصة الاستثمارية</title>
+    <title>OZO | مستقبل الابتكار العطري</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root { --bg: #050505; --accent: #7c3aed; --silver: #e5e7eb; }
-        body { background: var(--bg); color: #fff; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
-        #canvas { position: fixed; top: 0; left: 0; z-index: -1; }
-        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); border-radius: 30px; transition: 0.5s; }
-        .glass:hover { border-color: var(--accent); transform: translateY(-5px); }
+        :root { --bg: #ffffff; --text: #000000; --accent: #7c3aed; }
+        body { background: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        .glass-dark { background: rgba(0, 0, 0, 0.02); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); border-radius: 24px; }
+        .hero-gradient { background: radial-gradient(circle at center, #f9f9f9 0%, #ffffff 100%); }
+        [lang="en"] { font-family: 'Inter', sans-serif; direction: ltr; }
         .lang-node { display: none; }
         body[lang="ar"] .ar { display: block; }
         body[lang="en"] .en { display: block; }
-        body[lang="en"] { font-family: 'Inter', sans-serif; direction: ltr; }
-        .gradient-border { border-image: linear-gradient(to right, #7c3aed, transparent) 1; }
-        .hero-glow { filter: drop-shadow(0 0 40px rgba(124, 58, 237, 0.3)); }
+        section { border-bottom: 1px solid #f0f0f0; }
+        .vision-logo { filter: grayscale(100%); opacity: 0.6; }
     </style>
 </head>
 <body lang="ar">
-    <canvas id="canvas"></canvas>
 
-    <nav class="fixed w-full z-50 px-10 py-6 flex justify-between items-center bg-black/40 backdrop-blur-md border-b border-white/5">
-        <img src="logo.png" alt="OZO" class="h-8 md:h-10 object-contain">
+    <nav class="fixed w-full z-50 px-10 py-6 flex justify-between items-center bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <img src="logo.png" alt="OZO" class="h-8 object-contain">
         <div class="flex items-center gap-6">
-            <button onclick="toggleLang()" class="px-5 py-2 border border-purple-500/50 rounded-full text-[10px] font-bold tracking-widest hover:bg-purple-600 transition">AR | EN</button>
-            <a href="#contact" class="hidden md:block text-[10px] uppercase tracking-[0.3em] opacity-50 hover:opacity-100 transition">Investor Contact</a>
+            <button onclick="toggleLang()" class="text-[10px] font-bold tracking-widest border border-black/10 px-4 py-2 rounded-full hover:bg-black hover:text-white transition uppercase">AR | EN</button>
         </div>
     </nav>
 
-    <section class="min-h-screen flex flex-col justify-center items-center text-center px-6">
-        <img src="logo.png" alt="OZO" class="w-40 md:w-56 mb-12 hero-glow animate-pulse">
-        <h1 class="text-6xl md:text-9xl font-black mb-6 tracking-tighter leading-none">
-            <span class="ar lang-node">إعادة تعريف <br><span class="text-purple-500">الفخامة الرقمية</span></span>
-            <span class="en lang-node">Redefining <br><span class="text-purple-500">Digital Luxury</span></span>
+    <section class="h-screen flex flex-col justify-center items-center text-center px-6 hero-gradient">
+        <img src="logo.png" alt="OZO" class="w-48 md:w-64 mb-12">
+        <h1 class="text-5xl md:text-8xl font-extrabold mb-6 tracking-tighter">
+            <span class="ar lang-node">ابتكار سعودي <br>بمقاييس عالمية</span>
+            <span class="en lang-node">Saudi Innovation <br>Global Standards</span>
         </h1>
-        <p class="max-w-3xl opacity-50 text-xl font-light leading-relaxed">
-            <span class="ar lang-node">أول نظام خلط عطور ذكي عالمياً بدقة 0.05 مل، يجمع بين براءات الاختراع ونموذج ربحي مستدام.</span>
-            <span class="en lang-node">The world’s first smart fragrance blending system with 0.05ml precision and recurring revenue.</span>
+        <p class="max-w-2xl opacity-60 text-lg md:text-xl font-light">
+            <span class="ar lang-node">منظومة OZO الذكية: حيث تلتقي الدقة التقنية (0.05 مل) بفخامة العطور الشخصية.</span>
+            <span class="en lang-node">OZO Ecosystem: Where 0.05ml precision meets luxury personal fragrance.</span>
         </p>
     </section>
 
-    <section class="py-24 px-10 max-w-7xl mx-auto grid md:grid-cols-2 gap-10">
-        <div class="glass p-12">
-            <h3 class="text-purple-500 font-bold mb-4 uppercase tracking-[0.2em] text-xs">The Problem / المشكلة</h3>
-            <h2 class="text-3xl font-bold mb-6">جمود سوق العطور</h2>
-            <p class="opacity-40 text-lg leading-relaxed mb-6">
-                صناعة العطور الحالية "ستاتيكية" (ثابتة). العميل يشتري عطلاً واحداً لا يتغير، بينما يتغير مزاجه يومياً. هناك فجوة تقنية في التخصيص اللحظي (On-demand customization).
-            </p>
-        </div>
-        <div class="glass p-12 border-purple-500/20">
-            <h3 class="text-purple-500 font-bold mb-4 uppercase tracking-[0.2em] text-xs">The Solution / الحل</h3>
-            <h2 class="text-3xl font-bold mb-6">نظام OZO Ecosystem</h2>
-            <p class="opacity-40 text-lg leading-relaxed mb-6">
-                نظام خراطيش (Cartridges) قابل للإبدال يوفر 100,000+ تركيبة عطرية، مع تحكم كامل بالذكاء الاصطناعي، مما يضمن تدفقاً نقدياً مستمراً من خلال مبيعات الزيوت.
-            </p>
+    <section class="py-24 px-10 max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h3 class="text-purple-600 font-bold mb-4 uppercase tracking-widest text-xs">About Us / نبذة عنا</h3>
+                <h2 class="text-4xl font-black mb-8 leading-tight">نحن لا نصنع عطوراً، <br>نحن نبتكر تقنية المستقبل.</h2>
+                <p class="text-gray-600 leading-relaxed mb-6">
+                    انطلق مشروع <b>OZO</b> من قلب الرياض ليكون نموذجاً للابتكار التقني السعودي. نؤمن بأن التكنولوجيا يجب أن تخدم أدق تفاصيل حياتنا اليومية، ولهذا قمنا بتطوير أول نظام "ميكرو-خلط" ذكي في العالم.
+                </p>
+                <div class="p-6 bg-gray-50 rounded-2xl border-r-4 border-purple-500">
+                    <p class="text-sm italic text-gray-700 font-bold">
+                        "مشروع OZO يخدم مستهدفات رؤية المملكة 2030 في دعم التحول الرقمي، توطين الصناعات التقنية المبتكرة، وتعزيز مكانة المملكة كمركز عالمي للابتكار."
+                    </p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="glass-dark p-8 text-center">
+                    <span class="block text-3xl font-black mb-2">100%</span>
+                    <span class="text-[10px] uppercase opacity-50 font-bold">Saudi Innovation</span>
+                </div>
+                <div class="glass-dark p-8 text-center">
+                    <span class="block text-3xl font-black mb-2">0.05ml</span>
+                    <span class="text-[10px] uppercase opacity-50 font-bold">Tech Precision</span>
+                </div>
+                <div class="glass-dark p-8 text-center col-span-2">
+                    <span class="block text-lg font-bold mb-1">Vision 2030</span>
+                    <span class="text-[10px] uppercase opacity-50">Supporting Digital Transformation</span>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section class="py-24 px-10 bg-white/[0.01]">
+    <section class="py-24 px-10 bg-gray-50">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-20">
-                <h2 class="text-5xl font-black uppercase mb-4 tracking-tighter">Market Strategy</h2>
-                <div class="w-20 h-1 bg-purple-600 mx-auto"></div>
+                <h2 class="text-4xl font-black mb-4 uppercase tracking-tighter">Investment Pitch Deck</h2>
+                <p class="opacity-50">Strategic Growth & Financial Roadmap</p>
             </div>
-            <div class="grid md:grid-cols-3 gap-10">
-                <div class="glass p-10 text-center">
-                    <h4 class="text-4xl font-black mb-2">$4.2B</h4>
-                    <p class="opacity-40 text-xs uppercase tracking-widest">GCC Market Potential</p>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-10 rounded-3xl shadow-sm border border-gray-100">
+                    <h4 class="font-bold mb-4 text-purple-600">The Market Opportunity</h4>
+                    <p class="text-sm text-gray-500 mb-6">سوق العطور الخليجي يتجاوز 4.2 مليار دولار، مع نمو سنوي هائل في قطاع التخصيص.</p>
+                    <div class="h-40 bg-gray-50 rounded-xl flex items-center justify-center italic text-xs text-gray-400">
+                        [Interactive Chart Loading...]
+                    </div>
                 </div>
-                <div class="glass p-10 text-center border-purple-500/10">
-                    <h4 class="text-4xl font-black mb-2">75%</h4>
-                    <p class="opacity-40 text-xs uppercase tracking-widest">Gross Margin (Refills)</p>
+                <div class="bg-white p-10 rounded-3xl shadow-sm border border-gray-100">
+                    <h4 class="font-bold mb-4 text-purple-600">Revenue Model</h4>
+                    <p class="text-sm text-gray-500 mb-6">نموذج Razor-and-Blade: مبيعات مستدامة عبر خراطيش الزيوت بهامش ربح 75%.</p>
+                    <div class="h-40 bg-gray-50 rounded-xl flex items-center justify-center">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
                 </div>
-                <div class="glass p-10 text-center">
-                    <h4 class="text-4xl font-black mb-2">12</h4>
-                    <p class="opacity-40 text-xs uppercase tracking-widest">Patented Cartridges</p>
-                </div>
-            </div>
-            <div class="mt-20 glass p-10 h-[400px]">
-                <canvas id="mainChart"></canvas>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-32 px-10">
-        <div class="max-w-4xl mx-auto glass p-16 md:p-24 rounded-[60px] text-center relative overflow-hidden">
-            <h2 class="text-4xl font-black mb-16 uppercase tracking-tighter">Founder & Investment</h2>
-            <div class="space-y-12">
-                <div>
-                    <p class="opacity-30 text-[10px] uppercase tracking-[0.5em] mb-4">Email</p>
-                    <a href="mailto:ismail.althagafi92@gmail.com" class="text-xl md:text-3xl font-light hover:text-purple-400 transition">ismail.althagafi92@gmail.com</a>
-                </div>
-                <div>
-                    <p class="opacity-30 text-[10px] uppercase tracking-[0.5em] mb-4">Direct Line</p>
-                    <a href="tel:+966510150055" class="text-3xl md:text-5xl font-black" dir="ltr">+966 51 015 0055</a>
+                <div class="bg-white p-10 rounded-3xl shadow-sm border border-gray-100">
+                    <h4 class="font-bold mb-4 text-purple-600">The Roadmap</h4>
+                    <ul class="text-xs space-y-4 text-gray-600">
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 bg-purple-500 rounded-full"></span> 2026: Launch in Riyadh</li>
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-300 rounded-full"></span> 2027: GCC Expansion</li>
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-300 rounded-full"></span> 2028: Global Licensing</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="py-20 text-center border-t border-white/5 opacity-20">
-        <img src="logo.png" alt="OZO" class="h-6 mx-auto mb-6 grayscale">
+    <section id="contact" class="py-32 px-10 text-center">
+        <h2 class="text-4xl font-black mb-16 uppercase">Contact Founder / تواصل مع المؤسس</h2>
+        <div class="flex flex-col md:flex-row justify-center gap-12 items-center">
+            <div class="space-y-2">
+                <p class="text-[10px] uppercase tracking-widest opacity-40">Direct Email</p>
+                <a href="mailto:ismail.althagafi92@gmail.com" class="text-2xl font-light border-b border-black">ismail.althagafi92@gmail.com</a>
+            </div>
+            <div class="space-y-2">
+                <p class="text-[10px] uppercase tracking-widest opacity-40">Mobile</p>
+                <a href="tel:+966510150055" class="text-3xl font-black" dir="ltr">+966 51 015 0055</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center opacity-40 border-t border-gray-100">
+        <img src="logo.png" alt="OZO" class="h-6 mx-auto mb-4">
         <p class="text-[10px] uppercase tracking-[1em]">Riyadh • Kingdom of Saudi Arabia</p>
     </footer>
 
@@ -115,54 +132,20 @@
             b.dir = b.lang === 'ar' ? 'rtl' : 'ltr';
         }
 
-        // الرسم البياني (Financial Growth)
-        const ctx = document.getElementById('mainChart').getContext('2d');
+        // الرسم البياني لنموذج الربح
+        const ctx = document.getElementById('revenueChart').getContext('2d');
         new Chart(ctx, {
-            type: 'line',
+            type: 'doughnut',
             data: {
-                labels: ['2026', '2027', '2028', '2029', '2030'],
+                labels: ['Refills', 'Devices', 'Licensing'],
                 datasets: [{
-                    label: 'Projected Growth (Million $)',
-                    data: [1.2, 4.5, 11.8, 24.5, 48.2],
-                    borderColor: '#7c3aed',
-                    borderWidth: 3,
-                    backgroundColor: 'rgba(124, 58, 237, 0.05)',
-                    fill: true,
-                    tension: 0.4
+                    data: [75, 15, 10],
+                    backgroundColor: ['#7c3aed', '#000000', '#e5e7eb'],
+                    borderWidth: 0
                 }]
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { ticks: { color: 'rgba(255,255,255,0.3)' }, grid: { display: false } },
-                    y: { ticks: { color: 'rgba(255,255,255,0.3)' }, grid: { color: 'rgba(255,255,255,0.05)' } }
-                }
-            }
+            options: { cutout: '70%', plugins: { legend: { display: false } } }
         });
-
-        // خلفية "النجوم المتحركة"
-        const canvas = document.getElementById('canvas');
-        const c = canvas.getContext('2d');
-        let pts = [];
-        function init() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            pts = [];
-            for(let i=0; i<120; i++) pts.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.2, vx: Math.random()*0.3-0.15, vy: Math.random()*0.3-0.15 });
-        }
-        function draw() {
-            c.clearRect(0,0,canvas.width, canvas.height);
-            c.fillStyle = "rgba(124, 58, 237, 0.4)";
-            pts.forEach(p => {
-                c.beginPath(); c.arc(p.x, p.y, p.r, 0, Math.PI*2); c.fill();
-                p.x += p.vx; p.y += p.vy;
-                if(p.x<0 || p.x>canvas.width) p.vx*=-1;
-                if(p.y<0 || p.y>canvas.height) p.vy*=-1;
-            });
-            requestAnimationFrame(draw);
-        }
-        window.onresize = init; init(); draw();
     </script>
 </body>
 </html>
